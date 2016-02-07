@@ -19,7 +19,7 @@ public class AmazonSdkRxSqs implements RxSqs {
             client.listQueuesAsync(new AsyncHandler<ListQueuesRequest, ListQueuesResult>() {
                 @Override
                 public void onError(Exception exception) {
-
+                    subscriber.onError(exception);
                 }
 
                 @Override

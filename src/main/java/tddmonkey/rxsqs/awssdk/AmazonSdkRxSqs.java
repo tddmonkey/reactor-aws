@@ -1,5 +1,6 @@
 package tddmonkey.rxsqs.awssdk;
 
+import com.amazonaws.AmazonWebServiceRequest;
 import com.amazonaws.handlers.AsyncHandler;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClient;
 import com.amazonaws.services.sqs.model.ListQueuesRequest;
@@ -16,29 +17,29 @@ public class AmazonSdkRxSqs implements RxSqs {
 
     @Override
     public Observable<ListQueuesResult> listQueues() {
-        return Observable.create(subscriber -> client.listQueuesAsync(listQueuesHandler(subscriber)));
+        return Observable.create(subscriber -> client.listQueuesAsync(asyncHandler(subscriber)));
     }
 
     @Override
     public Observable<ListQueuesResult> listQueues(ListQueuesRequest listQueuesRequest) {
-        return Observable.create(subscriber -> client.listQueuesAsync(listQueuesRequest, listQueuesHandler(subscriber)));
+        return Observable.create(subscriber -> client.listQueuesAsync(listQueuesRequest, asyncHandler(subscriber)));
     }
 
     @Override
     public Observable<ListQueuesResult> listQueues(String queueNamePrefix) {
-        return Observable.create(subscriber -> client.listQueuesAsync(queueNamePrefix, listQueuesHandler(subscriber)));
+        return Observable.create(subscriber -> client.listQueuesAsync(queueNamePrefix, asyncHandler(subscriber)));
     }
 
-    private AsyncHandler<ListQueuesRequest, ListQueuesResult> listQueuesHandler(final Subscriber<? super ListQueuesResult> subscriber) {
-        return new AsyncHandler<ListQueuesRequest, ListQueuesResult>() {
+    private <RQ extends AmazonWebServiceRequest, RS> AsyncHandler<RQ, RS> asyncHandler(final Subscriber<? super RS> subscriber) {
+        return new AsyncHandler<RQ, RS>() {
             @Override
             public void onError(Exception exception) {
                 subscriber.onError(exception);
             }
 
             @Override
-            public void onSuccess(ListQueuesRequest request, ListQueuesResult listQueuesResult) {
-                subscriber.onNext(listQueuesResult);
+            public void onSuccess(RQ request, RS response) {
+                subscriber.onNext(response);
                 subscriber.onCompleted();
             }
         };

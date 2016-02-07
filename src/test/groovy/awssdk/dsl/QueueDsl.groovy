@@ -10,7 +10,7 @@ trait QueueDsl {
         return new TestableQueue(name: queueName, client: client())
     }
 
-    private AmazonSdkRxSqs rxSqs() {
+    AmazonSdkRxSqs rxSqs() {
         new AmazonSdkRxSqs(client())
     }
 }

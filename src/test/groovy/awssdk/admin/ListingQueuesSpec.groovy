@@ -1,6 +1,7 @@
 package awssdk.admin
 
 import awssdk.common.BaseAwsSdkSpec
+import awssdk.common.VerifyableRxSqs
 import com.amazonaws.services.sqs.model.ListQueuesRequest
 
 class ListingQueuesSpec extends BaseAwsSdkSpec{
@@ -9,7 +10,7 @@ class ListingQueuesSpec extends BaseAwsSdkSpec{
             queue("test-queue-1").exists()
 
         expect:
-            rxSqs().listQueues().returns(client.listQueues())
+            rxSqs().listQueues()
     }
 
     def "lists queues with request"() {
@@ -19,7 +20,7 @@ class ListingQueuesSpec extends BaseAwsSdkSpec{
             ListQueuesRequest listQueuesRequest = new ListQueuesRequest("test")
 
         expect:
-            rxSqs().listQueues(listQueuesRequest).returns(client.listQueues(listQueuesRequest))
+            rxSqs().listQueues(listQueuesRequest)
     }
 
     def "lists queues with prefix"() {
@@ -28,6 +29,6 @@ class ListingQueuesSpec extends BaseAwsSdkSpec{
             queue("other-test-queue-1").exists()
 
         expect:
-            rxSqs().listQueues("test").returns(client.listQueues("test"))
+            rxSqs().listQueues("test")
     }
 }

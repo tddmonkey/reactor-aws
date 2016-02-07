@@ -1,5 +1,6 @@
 package awssdk.dsl
 
+import awssdk.common.VerifyableRxSqs
 import com.amazonaws.services.sqs.AmazonSQSAsyncClient
 import tddmonkey.rxsqs.awssdk.AmazonSdkRxSqs
 
@@ -10,8 +11,8 @@ trait QueueDsl {
         return new TestableQueue(name: queueName, client: client())
     }
 
-    AmazonSdkRxSqs rxSqs() {
-        new AmazonSdkRxSqs(client())
+    VerifyableRxSqs rxSqs() {
+        return new VerifyableRxSqs(client: client())
     }
 }
 

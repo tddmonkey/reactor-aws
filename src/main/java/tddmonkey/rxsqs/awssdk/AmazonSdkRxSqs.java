@@ -1,12 +1,13 @@
 package tddmonkey.rxsqs.awssdk;
 
-import com.amazonaws.AmazonWebServiceRequest;
-import com.amazonaws.handlers.AsyncHandler;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClient;
+import com.amazonaws.services.sqs.model.CreateQueueRequest;
+import com.amazonaws.services.sqs.model.CreateQueueResult;
 import com.amazonaws.services.sqs.model.ListQueuesRequest;
 import com.amazonaws.services.sqs.model.ListQueuesResult;
 import rx.Observable;
-import rx.Subscriber;
+
+import static tddmonkey.rxsqs.awssdk.AmazonWebServiceRequestAsyncHandler.handlerFor;
 
 public class AmazonSdkRxSqs implements RxSqs {
     private AmazonSQSAsyncClient client;
@@ -17,32 +18,26 @@ public class AmazonSdkRxSqs implements RxSqs {
 
     @Override
     public Observable<ListQueuesResult> listQueues() {
-        return Observable.create(subscriber -> client.listQueuesAsync(asyncHandler(subscriber)));
+        return Observable.create(subscriber -> client.listQueuesAsync(handlerFor(subscriber)));
     }
 
     @Override
     public Observable<ListQueuesResult> listQueues(ListQueuesRequest listQueuesRequest) {
-        return Observable.create(subscriber -> client.listQueuesAsync(listQueuesRequest, asyncHandler(subscriber)));
+        return Observable.create(subscriber -> client.listQueuesAsync(listQueuesRequest, handlerFor(subscriber)));
     }
 
     @Override
     public Observable<ListQueuesResult> listQueues(String queueNamePrefix) {
-        return Observable.create(subscriber -> client.listQueuesAsync(queueNamePrefix, asyncHandler(subscriber)));
+        return Observable.create(subscriber -> client.listQueuesAsync(queueNamePrefix, handlerFor(subscriber)));
     }
 
-    private <RQ extends AmazonWebServiceRequest, RS> AsyncHandler<RQ, RS> asyncHandler(final Subscriber<? super RS> subscriber) {
-        return new AsyncHandler<RQ, RS>() {
-            @Override
-            public void onError(Exception exception) {
-                subscriber.onError(exception);
-            }
-
-            @Override
-            public void onSuccess(RQ request, RS response) {
-                subscriber.onNext(response);
-                subscriber.onCompleted();
-            }
-        };
+    public Observable<CreateQueueResult> createQueue(String queueName) {
+        return Observable.create(subscriber -> client.createQueueAsync(queueName, handlerFor(subscriber)));
     }
+
+    public Observable<CreateQueueResult> createQueue(CreateQueueRequest createQueueRequest) {
+        return Observable.create(subscriber -> client.createQueueAsync(createQueueRequest, handlerFor(subscriber)));
+    }
+
 
 }

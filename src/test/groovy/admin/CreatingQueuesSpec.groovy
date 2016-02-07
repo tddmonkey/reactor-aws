@@ -2,7 +2,7 @@ package admin
 
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.services.sqs.AmazonSQSAsyncClient
-import com.amazonaws.services.sqs.model.ListQueuesRequest
+import com.amazonaws.services.sqs.model.CreateQueueRequest
 import com.amazonaws.services.sqs.model.ListQueuesResult
 import com.shazam.tocker.DockerInstance
 import com.shazam.tocker.PortMap
@@ -11,10 +11,10 @@ import dsl.QueueDsl
 import rx.Observable
 import rx.observers.TestSubscriber
 import spock.lang.Shared
-import tddmonkey.rxsqs.awssdk.AmazonSdkRxSqs
 import spock.lang.Specification
+import tddmonkey.rxsqs.awssdk.AmazonSdkRxSqs
 
-class ListingQueuesSpec extends Specification implements QueueDsl {
+class CreatingQueuesSpec extends Specification implements QueueDsl {
     @Shared AmazonSQSAsyncClient client = new AmazonSQSAsyncClient(new BasicAWSCredentials("ignored", "ignored"))
 
     def setupSpec() {
@@ -37,32 +37,20 @@ class ListingQueuesSpec extends Specification implements QueueDsl {
         client.setEndpoint("http://${elasticMq.host()}:8000")
     }
 
-    def "lists all queues"() {
+    def "creates a queue with name"() {
         given:
-            queue("test-queue-1").exists()
+            def queueName = "create-queue-test__queue1"
 
         expect:
-            new AmazonSdkRxSqs(client).listQueues().returns(client.listQueues())
+            new AmazonSdkRxSqs(client).createQueue(queueName).returns(client.createQueue(queueName))
     }
 
-
-    def "lists queues with request"() {
+    def "creates a queue with request"() {
         given:
-            queue("test-queue-1").exists()
-            queue("other-test-queue-2").exists()
-            ListQueuesRequest listQueuesRequest = new ListQueuesRequest("test")
+            CreateQueueRequest createQueueRequest = new CreateQueueRequest("create-queue-test__queue2")
 
         expect:
-            new AmazonSdkRxSqs(client).listQueues(listQueuesRequest).returns(client.listQueues(listQueuesRequest))
-    }
-
-    def "lists queues with prefix"() {
-        given:
-            queue("test-queue-1").exists()
-            queue("other-test-queue-1").exists()
-
-        expect:
-            new AmazonSdkRxSqs(client).listQueues("test").returns(client.listQueues("test"))
+            new AmazonSdkRxSqs(client).createQueue(createQueueRequest).returns(client.createQueue(createQueueRequest))
     }
 
     @Override

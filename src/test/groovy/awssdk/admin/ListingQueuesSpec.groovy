@@ -10,7 +10,7 @@ class ListingQueuesSpec extends BaseAwsSdkSpec{
             queue("test-queue-1").exists()
 
         expect:
-            rxSqs().listQueues()
+            rxSqs().listQueues().matches()
     }
 
     def "lists queues with request"() {
@@ -20,7 +20,7 @@ class ListingQueuesSpec extends BaseAwsSdkSpec{
             ListQueuesRequest listQueuesRequest = new ListQueuesRequest("test")
 
         expect:
-            rxSqs().listQueues(listQueuesRequest)
+            rxSqs().listQueues(listQueuesRequest).matches()
     }
 
     def "lists queues with prefix"() {
@@ -29,6 +29,6 @@ class ListingQueuesSpec extends BaseAwsSdkSpec{
             queue("other-test-queue-1").exists()
 
         expect:
-            rxSqs().listQueues("test")
+            rxSqs().listQueues("test").matches()
     }
 }

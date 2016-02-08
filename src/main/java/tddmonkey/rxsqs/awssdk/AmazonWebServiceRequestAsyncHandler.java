@@ -6,13 +6,11 @@ import rx.Subscriber;
 
 class AmazonWebServiceRequestAsyncHandler<RQ extends AmazonWebServiceRequest, RS> implements AsyncHandler<RQ, RS> {
     private final Subscriber<? super RS> subscriber;
+    private boolean shouldEmitValue;
 
-    private AmazonWebServiceRequestAsyncHandler(Subscriber<? super RS> subscriber) {
+    private AmazonWebServiceRequestAsyncHandler(Subscriber<? super RS> subscriber, boolean shouldEmitValue) {
         this.subscriber = subscriber;
-    }
-
-    static <RQ extends AmazonWebServiceRequest, RS> AsyncHandler<RQ, RS> handlerFor(final Subscriber<? super RS> subscriber) {
-        return new AmazonWebServiceRequestAsyncHandler<>(subscriber);
+        this.shouldEmitValue = shouldEmitValue;
     }
 
     @Override
@@ -22,7 +20,17 @@ class AmazonWebServiceRequestAsyncHandler<RQ extends AmazonWebServiceRequest, RS
 
     @Override
     public void onSuccess(RQ request, RS response) {
-        subscriber.onNext(response);
+        if (shouldEmitValue) {
+            subscriber.onNext(response);
+        }
         subscriber.onCompleted();
+    }
+
+    static <RQ extends AmazonWebServiceRequest, RS> AsyncHandler<RQ, RS> valueEmittingHandlerFor(final Subscriber<? super RS> subscriber) {
+        return new AmazonWebServiceRequestAsyncHandler<>(subscriber, true);
+    }
+
+    public static <RQ extends AmazonWebServiceRequest> AsyncHandler<RQ, Void> voidHandlerFor(Subscriber<? super Void> subscriber) {
+        return new AmazonWebServiceRequestAsyncHandler<>(subscriber, false);
     }
 }

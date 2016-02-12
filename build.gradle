@@ -12,6 +12,8 @@ subprojects { subproject ->
 		jcenter()
 	}
 
+	ext.awsSdkVersion = "1.10.52"
+
 	if (subproject.name != "common") {
 		dependencies {
 			compile(

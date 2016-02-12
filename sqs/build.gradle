@@ -1,5 +1,5 @@
 dependencies {
 	compile(
-		'com.amazonaws:aws-java-sdk-sqs:1.10.50',
+		'com.amazonaws:aws-java-sdk-sqs:1.10.52',
 	)
 }

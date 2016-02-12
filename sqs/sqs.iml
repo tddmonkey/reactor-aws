@@ -9,6 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="common" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -23,22 +24,22 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-sqs/1.10.50/e3b4bc76b8dd447650f5466e20050c16509007be/aws-java-sdk-sqs-1.10.50.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-sqs/1.10.52/39cef519e6072ae57ad52ddba943015ed83669c4/aws-java-sdk-sqs-1.10.52.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-sqs/1.10.50/ba50a46546ac900d0e7cc1e9af42a5c515898b00/aws-java-sdk-sqs-1.10.50-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-sqs/1.10.52/f22c89b322bcc536ddc1604f7b7ccdc05a866a1e/aws-java-sdk-sqs-1.10.52-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-core/1.10.50/382c65e92cc9c7c6aed8e953575fd4de0a5b82c6/aws-java-sdk-core-1.10.50.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-core/1.10.52/5306cb0aaceff1d0568a30a182c85ce6d9e4ded3/aws-java-sdk-core-1.10.52.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-core/1.10.50/33b688d44c1a17d351fcbeafcfe3dce6e93c622b/aws-java-sdk-core-1.10.50-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-java-sdk-core/1.10.52/a610559f3a66b50e43615b7aec66355ecd2f8708/aws-java-sdk-core-1.10.52-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

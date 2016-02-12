@@ -1,18 +1,34 @@
-
 allprojects {
 	apply plugin: 'idea'
 }
 
-subprojects {
+subprojects { subproject ->
 	apply plugin: 'java'
+
+	sourceCompatibility = "1.8"
+	targetCompatibility = "1.8"
 
 	repositories {
 		jcenter()
+	}
+
+	if (subproject.name != "common") {
+		dependencies {
+			compile(
+				project(":common")
+			)
+		}
 	}
 
 	dependencies {
 		compile(
 			'io.reactivex:rxjava:1.1.0',
 		)
+	}
+}
+
+idea {
+	project {
+		languageLevel = '1.8'
 	}
 }

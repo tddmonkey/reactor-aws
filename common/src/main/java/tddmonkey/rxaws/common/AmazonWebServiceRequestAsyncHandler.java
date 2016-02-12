@@ -1,10 +1,10 @@
-package tddmonkey.rxsqs.awssdk;
+package tddmonkey.rxaws.common;
 
 import com.amazonaws.AmazonWebServiceRequest;
 import com.amazonaws.handlers.AsyncHandler;
 import rx.Subscriber;
 
-class AmazonWebServiceRequestAsyncHandler<RQ extends AmazonWebServiceRequest, RS> implements AsyncHandler<RQ, RS> {
+public class AmazonWebServiceRequestAsyncHandler<RQ extends AmazonWebServiceRequest, RS> implements AsyncHandler<RQ, RS> {
     private final Subscriber<? super RS> subscriber;
     private boolean shouldEmitValue;
 
@@ -26,7 +26,7 @@ class AmazonWebServiceRequestAsyncHandler<RQ extends AmazonWebServiceRequest, RS
         subscriber.onCompleted();
     }
 
-    static <RQ extends AmazonWebServiceRequest, RS> AsyncHandler<RQ, RS> valueEmittingHandlerFor(final Subscriber<? super RS> subscriber) {
+    public static <RQ extends AmazonWebServiceRequest, RS> AsyncHandler<RQ, RS> valueEmittingHandlerFor(final Subscriber<? super RS> subscriber) {
         return new AmazonWebServiceRequestAsyncHandler<>(subscriber, true);
     }
 

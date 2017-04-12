@@ -1,3 +1,5 @@
+rootProject.name = 'reactor-aws'
+
 include 'common'
 include 'sqs'
 include 'dynamodb'

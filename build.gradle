@@ -10,9 +10,10 @@ subprojects { subproject ->
 
 	repositories {
 		jcenter()
+		mavenCentral()
 	}
 
-	ext.awsSdkVersion = "1.10.52"
+	ext.awsSdkVersion = "1.11.118"
 
 	if (subproject.name != "common") {
 		dependencies {
@@ -24,7 +25,7 @@ subprojects { subproject ->
 
 	dependencies {
 		compile(
-			'io.reactivex:rxjava:1.1.0',
+			'io.projectreactor:reactor-core:3.0.6.RELEASE',
 		)
 	}
 }

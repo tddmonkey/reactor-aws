@@ -1,6 +1,6 @@
-# rx-aws
+# reactor-aws
 
-This project provides RxJava abstractions over some of the AWS Java SDK
+This project provides Spring Reactor abstractions over some of the AWS Java SDK
 
 # Supported SDKs
 
@@ -22,8 +22,8 @@ listQueuesResult.getQueueUrls().forEach(System.out::println);
 This can be turned into an Rx call like this:
 
 ```
-AmazonSdkRxSqs rxSqs = new AmazonSdkRxSqs(amazonClient);
-rxSqs.listQueues(new ListQueuesRequest())
+AmazonSdkReactorSqs reactorSqs = new AmazonSdkReactorSqs(amazonClient);
+reactorSqs.listQueues(new ListQueuesRequest())
 	.flatMapIterable(listQueuesResult -> listQueuesResult.getQueueUrls())
 	.subscribe(System.out::println);
 ```
@@ -44,17 +44,17 @@ receiveMessageResult.getMessages()
 Would become this:
 
 ```
-AmazonSdkRxSqs rxSqs = new AmazonSdkRxSqs(amazonClient);
+AmazonSdkReactorSqs reactorSqs = new AmazonSdkReactorSqs(amazonClient);
 ReceiveMessageRequest request = new ReceiveMessageRequest()
 	.withQueueUrl(queueUrl)
 	.withMaxNumberOfMessages(1);
-rxSqs.receiveMessage(request)
+reactorSqs.receiveMessage(request)
 	.flatMapIterable(receiveMessageResult -> receiveMessageResult.getMessages())
 	.map(message -> message.getBody())
 	.subscribe(System.out::println);
 ```
 
-The Rx client must be instantiated with an Async version of the AWS SDK being used as the Rx code performs an asynchronous call on your behalf.  Under the hood this is just a call to the relevant aws async method with a relevant Rx handler.  For example, using the aws async interface for listing queues, the code would be like this:
+The Reactor client must be instantiated with an Async version of the AWS SDK being used as the Reactor code performs an asynchronous call on your behalf.  Under the hood this is just a call to the relevant aws async method with a relevant Reactor handler.  For example, using the aws async interface for listing queues, the code would be like this:
 
 ```
 amazonClient.listQueuesAsync(new ListQueuesRequest(), new AsyncHandler<ListQueuesRequest, ListQueuesResult>() {
@@ -70,10 +70,10 @@ amazonClient.listQueuesAsync(new ListQueuesRequest(), new AsyncHandler<ListQueue
 });
 ```
 
-whereas with this library the call is a standard Rx chain:
+whereas with this library the call is a standard Reactor chain:
 
 ```
-rxSqs.listQueues(new ListQueuesRequest())
+reactorSqs.listQueues(new ListQueuesRequest())
 	.doOnError(t -> handleErrorsHere())
 	.subscribe(listQueuesResult -> handleSuccessHere());
 ```
